@@ -176,21 +176,21 @@ class Cart{
         bool thereAreshippable;
         float totalPrice = 0;
 
-        void add(Product *product, float quntity)
+        void add(Product *product, float quantity)
         {
             bool added = 1;
-            if (product->isAvailable(quntity))
+            if (product->isAvailable(quantity))
             {
                 // Check if shippable
                 if(dynamic_cast<shippable*>(product)){
                     thereAreshippable = 1;
-                    shippableProducts.push_back({dynamic_cast<shippable*>(product), quntity});
+                    shippableProducts.push_back({dynamic_cast<shippable*>(product), quantity});
                     // Check if shippableAndexpirable
                 } else if(dynamic_cast<shippableAndexpirable*>(product)){
                     // If shippableAndexpirable is not expired.
                     if(!(dynamic_cast<shippableAndexpirable*>(product)->isExpired())){
                         thereAreshippable = 1;
-                        shippableProducts.push_back({dynamic_cast<shippable*>(product), quntity});
+                        shippableProducts.push_back({dynamic_cast<shippable*>(product), quantity});
                         // If shippableAndexpirable is expired.
                     } else {
                         added = 0;
@@ -198,9 +198,9 @@ class Cart{
                     }
                 }
                 if(added){
-                    addedProducts.push_back({product, quntity});
-                    product->removeQuantity(quntity);
-                    totalPrice += (product->getPrice() * quntity);
+                    addedProducts.push_back({product, quantity});
+                    product->removeQuantity(quantity);
+                    totalPrice += (product->getPrice() * quantity);
                 }
             }
             else
@@ -295,16 +295,16 @@ int main(){
     market myMarket;
     // Inter 0 for not shippable or expirable products, 1 for shippable products, 2 for expirable products, and 3 for Shippable and Expirable products, then other product data
 
-    // normal product, price: 30, quntity: 5, weight: 2.
+    // normal product, price: 30, quantity: 5, weight: 2.
     Product* mobileScratch = myMarket.addProduct(0, "mobileScratch", 30, 5, 2); // normal product
 
-    // shippable product, price: 1000, quntity: 15, weight: 20.
+    // shippable product, price: 1000, quantity: 15, weight: 20.
     Product* tv = myMarket.addProduct(1, "Tv", 1000, 15, 20); // shippable product
 
-    // expirable  product, price: 2, quntity: 10, weight: 1, expaireMonth: 10. 
+    // expirable  product, price: 2, quantity: 10, weight: 1, expaireMonth: 10. 
     Product* Sushi = myMarket.addProduct(2, "Sushi", 5, 20, 2, 12); // expirable  product 
 
-    // shippable and expirable  product, price: 2, quntity: 10, weight: 1, expaireMonth: 10. 
+    // shippable and expirable  product, price: 2, quantity: 10, weight: 1, expaireMonth: 10. 
     Product* cheese = myMarket.addProduct(3, "cheese", 2, 10, 1, 10); // shippable and expirable  product 
 
     mobileScratch->viewDetail();

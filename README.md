@@ -46,16 +46,16 @@ int main(){
     /* Inter 0 for not shippable or expirable products, 1 for shippable products, 2 for expirable products,
      and 3 for Shippable and Expirable products, then other product data*/
 
-    // normal product, price: 30, quntity: 5, weight: 2.
+    // normal product, price: 30, quantity: 5, weight: 2.
     Product* mobileScratch = myMarket.addProduct(0, "mobileScratch", 30, 5, 2); // normal product
 
-    // shippable product, price: 1000, quntity: 15, weight: 20.
+    // shippable product, price: 1000, quantity: 15, weight: 20.
     Product* tv = myMarket.addProduct(1, "Tv", 1000, 15, 20); // shippable product
 
-    // expirable  product, price: 2, quntity: 10, weight: 1, expaireMonth: 10.
+    // expirable  product, price: 2, quantity: 10, weight: 1, expaireMonth: 10.
     Product* Sushi = myMarket.addProduct(2, "Sushi", 5, 20, 2, 12); // expirable  product
 
-    // shippable and expirable  product, price: 2, quntity: 10, weight: 1, expaireMonth: 10.
+    // shippable and expirable  product, price: 2, quantity: 10, weight: 1, expaireMonth: 10.
     Product* cheese = myMarket.addProduct(3, "cheese", 2, 10, 1, 10); // shippable and expirable  product
 
     mobileScratch->viewDetail();
