@@ -1,4 +1,4 @@
-## A Supermarket Object-Oriented Programming app 
+## A C++ Supermarket Object-Oriented Programming app with Solid Principles
                                                  ┌──────────────────────┐
                                                  │      Product         │  (base class)
                                                  │ - name: string       │
