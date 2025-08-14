@@ -293,6 +293,7 @@ void checkout(customer* customer, Cart* cart) {
 
 int main(){
     market myMarket;
+    // Inter 0 for not shippable or expirable products, 1 for shippable products, 2 for expirable products, and 3 for Shippable and Expirable products, then other product data
 
     // normal product, price: 30, quntity: 5, weight: 2.
     Product* mobileScratch = myMarket.addProduct(0, "mobileScratch", 30, 5, 2); // normal product
