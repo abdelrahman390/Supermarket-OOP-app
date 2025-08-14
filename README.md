@@ -92,18 +92,18 @@ int main(){
     customer abdelrahman("Abdelrahman", 2000);
 
     checkout(&abdelrahman, &cart);
-      //Output:
-        // ** Shipment notice **
-        // 1X Tv    20kg
-        // Total package weight 20g
-        
-        // ** Checkout receipt **
-        // 4X mobileScratch    120$
-        // 1X Tv    1000$
-        // ------------------------
-        // Subtotal      1120$
-        // Shipping      30$
-        // Amount        1150$
+    //Output:
+      // ** Shipment notice **
+      // 1X Tv    20kg
+      // Total package weight 20g
+      
+      // ** Checkout receipt **
+      // 4X mobileScratch    120$
+      // 1X Tv    1000$
+      // ------------------------
+      // Subtotal      1120$
+      // Shipping      30$
+      // Amount        1150$
 
     return 0;
 }
