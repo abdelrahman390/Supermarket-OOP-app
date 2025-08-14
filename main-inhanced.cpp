@@ -301,11 +301,11 @@ int main(){
     // shippable product, price: 1000, quntity: 15, weight: 20.
     Product* tv = myMarket.addProduct(1, "Tv", 1000, 15, 20); // shippable product
 
-    // Expirble product, price: 2, quntity: 10, weight: 1, expaireMonth: 10. 
-    Product* Sushi = myMarket.addProduct(2, "Sushi", 5, 20, 2, 12); // expirble product 
+    // expirable  product, price: 2, quntity: 10, weight: 1, expaireMonth: 10. 
+    Product* Sushi = myMarket.addProduct(2, "Sushi", 5, 20, 2, 12); // expirable  product 
 
-    // shippable and expirble product, price: 2, quntity: 10, weight: 1, expaireMonth: 10. 
-    Product* cheese = myMarket.addProduct(3, "cheese", 2, 10, 1, 10); // shippable and expirble product 
+    // shippable and expirable  product, price: 2, quntity: 10, weight: 1, expaireMonth: 10. 
+    Product* cheese = myMarket.addProduct(3, "cheese", 2, 10, 1, 10); // shippable and expirable  product 
 
     mobileScratch->viewDetail();
     cout << "-----------------"<< endl;
