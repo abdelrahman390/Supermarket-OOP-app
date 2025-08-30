@@ -3,6 +3,7 @@
 #include <ctime>
 #include <vector>
 #include <stdexcept>
+#include <map>
 
 using namespace std;
 /*
@@ -21,6 +22,7 @@ string weightCheck(int weight){
 
 // Abstract class
 class Product {
+    int id; 
     string name;
     float price;
     float quantity;
@@ -28,12 +30,13 @@ class Product {
         float weight;
     
     public :
-        Product(string _name, float _price, float _quantity, float _weight)
+        Product(int _id, string _name, float _price, float _quantity, float _weight)
         {
             name = _name;
             price = _price;
             quantity = _quantity;
             weight = _weight;
+            id = _id;
         }
 
         virtual void viewDetail(){
@@ -60,6 +63,10 @@ class Product {
             return name;
         }
 
+        int getId(){
+            return id;
+        }
+
         void removeQuantity(float qnt){
             quantity -= qnt;
         }
@@ -67,8 +74,8 @@ class Product {
 
 class shippable : public virtual Product  {
     public :
-        shippable(string _name, float _price, float _quantity, float _weight)
-        : Product(_name, _price, _quantity, _weight){}
+        shippable(int _id, string _name, float _price, float _quantity, float _weight)
+        : Product(_id, _name, _price, _quantity, _weight){}
 
         float getWeight(){
             return weight;
@@ -80,8 +87,8 @@ class expirable : public virtual Product   {
     int expaireMonth;
 
     public :
-        expirable(string _name, float _price, float _quantity, float _weight, int _expaireMonth)
-        : Product(_name, _price, _quantity, _weight){
+        expirable(int _id, string _name, float _price, float _quantity, float _weight, int _expaireMonth)
+        : Product(_id, _name, _price, _quantity, _weight){
             expaireMonth = _expaireMonth;
         }
 
@@ -110,10 +117,10 @@ class expirable : public virtual Product   {
 class shippableAndexpirable: public shippable, public expirable{
     
     public:
-        shippableAndexpirable(string _name, float _price, float _quantity , float _weight, int _expaireMonth): 
-        Product(_name, _price, _quantity, _weight),
-        shippable( _name, _price, _quantity, _weight),
-        expirable( _name, _price, _quantity,_weight, _expaireMonth){}
+        shippableAndexpirable(int _id, string _name, float _price, float _quantity , float _weight, int _expaireMonth): 
+        Product(_id, _name, _price, _quantity, _weight),
+        shippable(_id, _name, _price, _quantity, _weight),
+        expirable(_id, _name, _price, _quantity,_weight, _expaireMonth){}
 
         void viewDetail()
         {
@@ -122,50 +129,62 @@ class shippableAndexpirable: public shippable, public expirable{
 };
 
 class market {
-    vector<Product*> products;
+    int currId = 1;
+    map<int , Product*> products;
 
     public:
         market(){
             cout << "\nInter 0 for not shippable or expirable products, 1 for shippable products, 2 for expirable products, and 3 for Shippable and Expirable products, then other product data" << endl;
         }
 
-        Product* addProduct(int ch, string _name, float _price, float _quantity, float _weight = 0, int _expaireMonth = 0){
+        int addProduct(int ch, string _name, float _price, float _quantity, float _weight = 0, int _expaireMonth = 0){
             Product* p = NULL;
             switch (ch) {
             case 0:
-                p = new Product(_name, _price, _quantity, _weight);
-                products.push_back(p);
-                return p;
+                p = new Product(currId, _name, _price, _quantity, _weight);
+                products[p->getId()] = p;
+                currId++;
+                return p->getId();
             case 1:
                 if(_weight == 0){
                     cout << "Invalid weight value" << endl;
                 } else {
-                    p = new shippable(_name, _price, _quantity, _weight);
-                    products.push_back(p);
+                    p = new shippable(currId, _name, _price, _quantity, _weight);
+                    products[p->getId()] = p;
+                    currId++;
+                    return p->getId();
                 }
-                return p;
             case 2:
                 if(_expaireMonth == 0){
                     cout << "Invalid expaireMonth value" << endl;
                 } else {
-                    p = new expirable(_name, _price, _quantity, _weight, _expaireMonth);
-                    products.push_back(p);
+                    p = new expirable(currId, _name, _price, _quantity, _weight, _expaireMonth);
+                    products[p->getId()] = p;
+                    currId++;
+                    return p->getId();
                 }
-                return p;
             case 3:
                 if(_weight == 0 || _expaireMonth == 0){
                     cout << "Invalid weight or expaireMonth value" << endl;
                 } else {
-                    p = new shippableAndexpirable(_name, _price, _quantity, _weight, _expaireMonth);
-                    products.push_back(p);
+                    p = new shippableAndexpirable(currId, _name, _price, _quantity, _weight, _expaireMonth);
+                    products[p->getId()] = p;
+                    currId++;
+                    return p->getId();
                 }
-                return p;
             default:
                 cout << "Invalud product type choice" << endl;
-                return p;
+                return -1;
             }
         }
 
+        void viewProduct(int id){
+            products[id]->viewDetail();
+        }
+
+        Product* getProduct(int id){
+            return products[id];
+        }
 };
 
 class Cart{
@@ -224,7 +243,6 @@ class Cart{
                 return 1;
             }
         }
-
 };
 
 class customer{
@@ -296,30 +314,30 @@ int main(){
     // Inter 0 for not shippable or expirable products, 1 for shippable products, 2 for expirable products, and 3 for Shippable and Expirable products, then other product data
 
     // normal product, price: 30, quantity: 5, weight: 2.
-    Product* mobileScratch = myMarket.addProduct(0, "mobileScratch", 30, 5, 2); // normal product
+    int mobileScratch = myMarket.addProduct(0, "mobileScratch", 30, 5, 2); // normal product
 
     // shippable product, price: 1000, quantity: 15, weight: 20.
-    Product* tv = myMarket.addProduct(1, "Tv", 1000, 15, 20); // shippable product
+    int tv = myMarket.addProduct(1, "Tv", 1000, 15, 20); // shippable product
 
     // expirable  product, price: 2, quantity: 10, weight: 1, expaireMonth: 10. 
-    Product* Sushi = myMarket.addProduct(2, "Sushi", 5, 20, 2, 12); // expirable  product 
+    int Sushi = myMarket.addProduct(2, "Sushi", 5, 20, 2, 12); // expirable  product 
 
     // shippable and expirable  product, price: 2, quantity: 10, weight: 1, expaireMonth: 10. 
-    Product* cheese = myMarket.addProduct(3, "cheese", 2, 10, 1, 10); // shippable and expirable  product 
+    int cheese = myMarket.addProduct(3, "cheese", 2, 10, 1, 10); // shippable and expirable  product 
 
-    mobileScratch->viewDetail();
+    myMarket.viewProduct(mobileScratch);
     cout << "-----------------"<< endl;
-    tv->viewDetail();
+    myMarket.viewProduct(tv);
     cout << "-----------------"<< endl;
-    Sushi->viewDetail();
+    myMarket.viewProduct(Sushi);
     cout << "-----------------"<< endl;
-    cheese->viewDetail();
+    myMarket.viewProduct(cheese);
     cout << "-----------------"<< endl;
     // ****************** print products details ******************
 
     Cart cart;
-    cart.add(mobileScratch, 4);
-    cart.add(tv, 1);
+    cart.add(myMarket.getProduct(mobileScratch), 4);
+    cart.add(myMarket.getProduct(tv), 1);
 
     // Name: abdelrahman, balance: 2000
     customer abdelrahman("Abdelrahman", 2000);
