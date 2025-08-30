@@ -1,4 +1,10 @@
 ## A C++ Supermarket Object-Oriented Programming app with Solid Principles
+---
+
+## ⚙️ Data Structures Used
+- **Hash Table (`map`)**
+- **Dynamic Array (`vector`)**
+---
 
                                                  ┌──────────────────────┐
                                                  │      Product         │  (base class)
